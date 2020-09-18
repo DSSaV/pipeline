@@ -1,0 +1,30 @@
+# GENERAL INFO
+data: extra/dataset.csv
+model: lstm
+
+# RAW DATA PROCESSING
+processing:
+    resample: true
+    time: D
+    aggregate: {
+        Open: first,
+        High: max,
+        Low: min,
+        Close: last,
+        Volume: sum
+    }
+    label:
+        from: Close
+        shift: 1
+
+# FEATURE EXTRATION
+features:
+    add: [SK, SD, Momentum]
+    window: 14
+    filter: [Close, Momentum, SD, Label]
+
+# MODEL TRAINING PARAMS
+training:
+    epochs: 20
+    batch: 8
+    validation: 25

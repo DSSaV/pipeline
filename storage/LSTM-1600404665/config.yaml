@@ -1,0 +1,29 @@
+model:
+  batch: 8
+  epochs: 20
+  name: lstm
+  validation: 25
+step-one:
+  file: extra/dataset.csv
+  label:
+    from: Close
+    jump: 1
+  resample:
+    aggregate:
+      Close: last
+      High: max
+      Low: min
+      Open: first
+      Volume: sum
+    time: D
+step-two:
+  features:
+  - SK
+  - SD
+  - Momentum
+  filter:
+  - Close
+  - Momentum
+  - SD
+  - Label
+  window: 14
