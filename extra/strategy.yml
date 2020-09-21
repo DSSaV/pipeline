@@ -1,0 +1,25 @@
+-   name: strategy
+	data:
+        inputfile: #filename
+        outputfile: #filename
+	comparison:
+		acctual: label
+-	trade: crossover #input regression
+		buy:
+			leaddata: close
+			lagdata: prediction
+		sell:
+			leaddata: close
+			lagdata: prediction
+-	trade: direction #input regression
+		buy:
+			leaddata: prediction
+			lagdata: close	
+		sell:
+			leaddata: prediction
+			lagdata: close
+-	trade: class
+		buy:
+			leaddata: prediction
+		sell:
+			leaddata: prediction
