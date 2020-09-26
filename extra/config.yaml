@@ -22,15 +22,34 @@ features:
     window: 14
     filter: [Close, Momentum, SD, Label]
 
-# DATASET SPLITTING
-splitting:
-    train: 0.6
-    test: 0.2
-    validation: 0.2
-
 # MODEL ENSAMBLE
 ensamble:
-    models: [linreg, lstm]
+    models:
+        - linreg:
+            split:
+                train: 0.8
+                test: 0.2
+        - lstm:
+            split:
+                train: 0.6
+                test: 0.2
+                validation: 0.2
+            layers:
+                - lstm:
+                    value: 120
+                    activation: relu
+                - dropout:
+                    value: 0.15
+                - dense:
+                    value: 50
+                    activation: relu
+                - dense:
+                    value: 1
+            epochs: 20
+            batch: 8
+            validation: 25
+            loss: mean_squared_error
+            optimizer: rmsprop
     decision: mean
 
 # MODEL TRAINING PARAMS
