@@ -1,6 +1,5 @@
-# GENERAL INFO
+# RAW DATASET TO USE
 data: extra/dataset.csv
-model: lstm
 
 # RAW DATA PROCESSING
 processing:
@@ -23,8 +22,32 @@ features:
     window: 14
     filter: [Close, Momentum, SD, Label]
 
+# DATASET SPLITTING
+splitting:
+    train: 0.6
+    test: 0.2
+    validation: 0.2
+
+# MODEL ENSAMBLE
+ensamble:
+    models: [linreg, lstm]
+    decision: mean
+
 # MODEL TRAINING PARAMS
 training:
-    epochs: 20
-    batch: 8
-    validation: 25
+    linreg:
+    lstm:
+        layers:
+            - lstm:
+                nodes: 120
+                activation: relu
+            - dropout:
+                nodes: 0.15
+            - dense:
+                nodes: 50
+                activation: relu
+            - dense:
+                nodes: 1
+        epochs: 20
+        batch: 8
+        validation: 25
