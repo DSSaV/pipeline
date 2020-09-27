@@ -51,22 +51,3 @@ ensamble:
             loss: mean_squared_error
             optimizer: rmsprop
     decision: mean
-
-# MODEL TRAINING PARAMS
-training:
-    linreg:
-    lstm:
-        layers:
-            - lstm:
-                nodes: 120
-                activation: relu
-            - dropout:
-                nodes: 0.15
-            - dense:
-                nodes: 50
-                activation: relu
-            - dense:
-                nodes: 1
-        epochs: 20
-        batch: 8
-        validation: 25
