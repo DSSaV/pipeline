@@ -22,8 +22,8 @@ features:
     window: 14
     filter: [Close, Momentum, SD, Label]
 
-# MODEL ENSAMBLE
-ensamble:
+# MODEL ENSEMBLE
+ensemble:
     models:
         - linreg:
             split:
