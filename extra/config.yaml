@@ -1,4 +1,10 @@
-# RAW DATASET TO USE
+#data:
+#    source: some API
+#    from: date
+#    to: date
+#    formatting: min | hour | day
+
+# TEMP DATASET TO USE
 data: extra/dataset.csv
 
 # RAW DATA PROCESSING
@@ -50,4 +56,24 @@ ensemble:
             validation: 25
             loss: mean_squared_error
             optimizer: rmsprop
-    decision: mean
+        - lstm:
+            split:
+                train: 0.6
+                test: 0.2
+                validation: 0.2
+            layers:
+                - lstm:
+                    value: 120
+                    activation: relu
+                - dropout:
+                    value: 0.15
+                - dense:
+                    value: 50
+                    activation: relu
+                - dense:
+                    value: 1
+            epochs: 10
+            batch: 4
+            validation: 40
+            loss: mean_squared_error
+            optimizer: adam
