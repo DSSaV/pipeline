@@ -19,14 +19,14 @@ processing:
         Volume: sum
     }
     label:
-        from: Close
+        from: close
         shift: 1
 
 # FEATURE EXTRATION
 features:
-    add: [SK, SD, Momentum]
+    add: [sk, sd, momentum]
     window: 14
-    filter: [Close, Momentum, SD, Label]
+    filter: [close, momentum, sd, label]
 
 # MODEL ENSEMBLE
 ensemble:
