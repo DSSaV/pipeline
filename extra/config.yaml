@@ -37,11 +37,10 @@ splitting:
 ensemble:
     models:
         - linreg:
-        - linreg:
         - lstm:
             morph:
                 window: 4
-                batch: 8
+                batch: 30
             layers:
                 - lstm:
                     value: 120
@@ -52,6 +51,6 @@ ensemble:
                     activation: relu
                 - dense:
                     value: 1
-            epochs: 5
+            epochs: 15
             loss: mean_squared_error
             optimizer: rmsprop
