@@ -38,14 +38,13 @@ ensemble:
     models:
         - linreg:
         - linreg:
-        - linreg:
-        - linreg:
-        - linreg:
         - lstm:
+            morph:
+                window: 4
+                batch: 8
             layers:
                 - lstm:
                     value: 120
-                    activation: relu
                 - dropout:
                     value: 0.15
                 - dense:
@@ -54,6 +53,5 @@ ensemble:
                 - dense:
                     value: 1
             epochs: 5
-            batch: 8
             loss: mean_squared_error
             optimizer: rmsprop
