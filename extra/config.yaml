@@ -19,14 +19,13 @@ processing:
         Volume: sum
     }
     label:
-        from: close
+        from: Close
         shift: 1
 
-# FEATURE EXTRATION
+# FEATURE INJECTION
 features:
-    add: [sk, sd, momentum]
+    category: all
     window: 14
-    filter: [close, momentum, sd, label]
 
 # TRAIN/TEST SPLITTING
 splitting:
@@ -34,7 +33,7 @@ splitting:
     validation_folds: 5
 
 # MODEL ENSEMBLE
-ensemble:
+regression_ensemble:
     models:
         - linreg:
         - lstm:
@@ -54,3 +53,14 @@ ensemble:
             epochs: 15
             loss: mean_squared_error
             optimizer: rmsprop
+
+classification_ensemble:
+    decision:
+        name: quantile
+        upper: 0.75
+        lower: 0.25
+        #name: threshold
+        #value: 0.003
+    models:
+        - logreg:
+        - rand_forest:
