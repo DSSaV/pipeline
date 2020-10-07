@@ -53,6 +53,30 @@ regression_ensemble:
             epochs: 15
             loss: mean_squared_error
             optimizer: rmsprop
+        - tcn:
+            morph:
+                window: 4
+                batch: 30
+            layers:
+                - tcn:
+                    nb_filters: 64
+                    nb_stacks: 1
+                    dilations: [1, 2, 4, 8, 16, 32]
+                    padding: causal
+                    use_skip_connections: False
+                    dropout_rate: 0.10
+                    return_sequences: False
+                    activation: relu
+                - dropout:
+                    rate: 0.05
+                - dense:
+                    units: 50
+                    activation: relu
+                - dense:
+                    units: 1
+            epochs: 3
+            loss: mean_squared_error
+            optimizer: adam
 
 classification_ensemble:
     decision:
