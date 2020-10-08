@@ -78,6 +78,7 @@ regression_ensemble:
             loss: mean_squared_error
             optimizer: adam
 
+# CLASSIFICATION ENSEMBLE
 classification_ensemble:
     decision:
         name: quantile
@@ -86,5 +87,9 @@ classification_ensemble:
         #name: threshold
         #value: 0.003
     models:
-        - logreg:
-        - rand_forest:
+        #- logreg:
+        #    random_state: 0
+        #    class_weight: balanced
+        - svc:
+            kernel: [linear, rbf]
+            C: [1, 10]
