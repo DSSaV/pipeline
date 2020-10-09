@@ -35,7 +35,11 @@ splitting:
 # MODEL ENSEMBLE
 regression_ensemble:
     models:
+
+        # LINEAR REGRESSION
         - linreg:
+
+        # LONG SHORT TERM MEMORY
         - lstm:
             morph:
                 window: 4
@@ -53,9 +57,11 @@ regression_ensemble:
             epochs: 15
             loss: mean_squared_error
             optimizer: rmsprop
+
+        # TEMPORAL NEURAL NETWORK
         - tcn:
             morph:
-                window: 4
+                window: 4 # TCN IS MADE FOR AUDIO, THIS VALUE SHOULD BE EXTREMELY HIGH (~16K)
                 batch: 30
             layers:
                 - tcn:
@@ -80,6 +86,8 @@ regression_ensemble:
 
 # CLASSIFICATION ENSEMBLE
 classification_ensemble:
+
+    # LABEL DECISION
     decision:
         name: quantile
         upper: 0.75
@@ -87,9 +95,17 @@ classification_ensemble:
         #name: threshold
         #value: 0.003
     models:
-        #- logreg:
-        #    random_state: 0
-        #    class_weight: balanced
+
+        # LOGISTIC REGRESSION
+        - logreg:
+            static:
+                random_state: 0
+                class_weight: balanced
+
+        # SUPPORT VECTOR CLASSIFIER
         - svc:
-            kernel: [linear, rbf]
-            C: [1, 10]
+            static:
+                decision_function_shape: ovo
+            grid_search:
+                kernel: [linear, rbf]
+                C: [1, 10]
