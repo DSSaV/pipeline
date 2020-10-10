@@ -108,4 +108,4 @@ classification_ensemble:
                 decision_function_shape: ovo
             grid_search:
                 kernel: [linear, rbf]
-                C: [1, 10]
+                C: [1, 150]
