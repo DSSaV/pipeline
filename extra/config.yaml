@@ -89,11 +89,8 @@ classification_ensemble:
 
     # LABEL DECISION
     decision:
-        name: quantile
         upper: 0.75
         lower: 0.25
-        #name: threshold
-        #value: 0.003
     models:
 
         # LOGISTIC REGRESSION
