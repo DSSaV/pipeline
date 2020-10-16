@@ -95,16 +95,13 @@ classification_ensemble:
         # RANDOM FOREST
         - randforest:
             grid_search:
-                cv: 3
-                n_jobs: -1
-                grid_params:
-                    n_estimators: [10,50,100,300]
-                    max_features: [log2, sqrt]
-                    max_depth: [10, 100, None]
-                    min_samples_split: [3, 10]
-                    min_samples_leaf: [2, 4]
-                    bootstrap: [True, False]
-                    class_weight: [balanced]
+                n_estimators: [10, 50, 100, 300]
+                max_features: [log2, sqrt]
+                max_depth: [10, 100, None]
+                min_samples_split: [3, 10]
+                min_samples_leaf: [2, 4]
+                bootstrap: [True, False]
+                class_weight: [balanced]
 
         # LOGISTIC REGRESSION
         - logreg:
