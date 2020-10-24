@@ -1,4 +1,0 @@
-sista activation ti softmax
-sista dense layer size ti number of class types (3)
-loss = cat crossentropy
-argmax på label
