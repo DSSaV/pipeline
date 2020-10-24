@@ -1,0 +1,118 @@
+#data:
+#    source: some API
+#    from: date
+#    to: date
+#    formatting: min | hour | day
+
+# TEMP DATASET TO USE
+data: C://Users/35840/desktop/coding/python/pipeline/extra/dataset.csv
+
+# RAW DATA PROCESSING
+processing:
+    resample: true
+    time: D
+    aggregate: {
+        Open: first,
+        High: max,
+        Low: min,
+        Close: last,
+        Volume: sum
+    }
+    label:
+        from: Close
+        shift: 1
+
+# FEATURE INJECTION
+features:
+    category: all
+    window: 14
+
+# TRAIN/TEST SPLITTING
+splitting:
+    train_split: 0.8
+    validation_folds: 5
+
+# MODEL ENSEMBLE
+regression_ensemble:
+    models:
+
+        # LINEAR REGRESSION
+        - linreg:
+
+        # LONG SHORT TERM MEMORY
+        - lstm:
+            morph:
+                window: 4
+                batch: 30
+            layers:
+                - lstm:
+                    units: 120
+                - dropout:
+                    rate: 0.15
+                - dense:
+                    units: 50
+                    activation: relu
+                - dense:
+                    units: 1
+            epochs: 15
+            loss: mean_squared_error
+            optimizer: rmsprop
+
+        # TEMPORAL NEURAL NETWORK
+        - tcn:
+            morph:
+                window: 4 # TCN IS MADE FOR AUDIO, THIS VALUE SHOULD BE EXTREMELY HIGH (~16K)
+                batch: 30
+            layers:
+                - tcn:
+                    nb_filters: 64
+                    nb_stacks: 1
+                    dilations: [1, 2, 4, 8, 16, 32]
+                    padding: causal
+                    use_skip_connections: False
+                    dropout_rate: 0.10
+                    return_sequences: False
+                - dropout:
+                    rate: 0.05
+                - dense:
+                    units: 50
+                    activation: relu
+                - dense:
+                    units: 1
+            epochs: 15
+            loss: mean_squared_error
+            optimizer: adam
+
+# CLASSIFICATION ENSEMBLE
+classification_ensemble:
+
+    # LABEL DECISION
+    decision:
+        upper: 0.75
+        lower: 0.25
+    models:
+
+        # RANDOM FOREST
+        - randforest:
+            grid_search:
+                n_estimators: [10, 50, 100, 300]
+                max_features: [log2, sqrt]
+                max_depth: [10, 100, None]
+                min_samples_split: [3, 10]
+                min_samples_leaf: [2, 4]
+                bootstrap: [True, False]
+                class_weight: [balanced]
+
+        # LOGISTIC REGRESSION
+        - logreg:
+            static:
+                random_state: 0
+                class_weight: balanced
+
+        # SUPPORT VECTOR CLASSIFIER
+        - svc:
+            static:
+                decision_function_shape: ovo
+            grid_search:
+                kernel: [linear, rbf]
+                C: [1, 150]

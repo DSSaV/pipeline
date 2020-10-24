@@ -5,7 +5,7 @@
 #    formatting: min | hour | day
 
 # TEMP DATASET TO USE
-data: extra/dataset.csv
+data: C://Users/35840/desktop/coding/python/pipeline/extra/dataset.csv
 
 # RAW DATA PROCESSING
 processing:
@@ -54,7 +54,7 @@ regression_ensemble:
                     activation: relu
                 - dense:
                     units: 1
-            epochs: 15
+            epochs: 5
             loss: mean_squared_error
             optimizer: rmsprop
 
@@ -79,7 +79,7 @@ regression_ensemble:
                     activation: relu
                 - dense:
                     units: 1
-            epochs: 15
+            epochs: 5
             loss: mean_squared_error
             optimizer: adam
 

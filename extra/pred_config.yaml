@@ -1,0 +1,8 @@
+#data:
+#    source: some API
+#    from: date
+#    to: date
+#    formatting: min | hour | day
+
+# TEMP DATASET TO USE
+data: C://Users/35840/desktop/coding/python/pipeline/dataset/predict.csv
