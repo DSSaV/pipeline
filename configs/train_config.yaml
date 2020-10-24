@@ -4,7 +4,7 @@ data: C://Users/35840/desktop/coding/python/pipeline/datasets/training.csv
 # RAW DATA PROCESSING
 processing:
     resample: true
-    time: D
+    time: 4H
     aggregate: {
         Open: first,
         High: max,
@@ -18,7 +18,7 @@ processing:
 
 # FEATURE INJECTION
 features:
-    category: all
+    category: type-1
     window:
         windowtype: default
         timeframe: 14
@@ -69,7 +69,7 @@ regression_ensemble:
                     activation: relu
                 - dense:
                     units: 1
-            epochs: 15
+            epochs: 7
             loss: mean_squared_error
             optimizer: rmsprop
 
@@ -80,31 +80,31 @@ regression_ensemble:
                 batch: 30
             layers:
                 - tcn:
-                    nb_filters: 64
+                    nb_filters: 100
                     nb_stacks: 1
-                    dilations: [1, 2, 4, 8, 16, 32]
+                    dilations: [1, 2, 4, 8, 16, 32, 64]
                     padding: causal
                     use_skip_connections: False
-                    dropout_rate: 0.10
+                    dropout_rate: 0.4
                     return_sequences: False
                 - dropout:
                     rate: 0.05
                 - dense:
-                    units: 50
+                    units: 30
                     activation: relu
                 - dense:
                     units: 1
-            epochs: 15
+            epochs: 7
             loss: mean_squared_error
-            optimizer: adam
+            optimizer: rmsprop
 
 # CLASSIFICATION ENSEMBLE
 classification_ensemble:
 
     # LABEL DECISION
     decision:
-        upper: 0.75
-        lower: 0.25
+        upper: 0.70
+        lower: 0.30
     models:
 
         # RANDOM FOREST
@@ -123,11 +123,25 @@ classification_ensemble:
             static:
                 random_state: 0
                 class_weight: balanced
-
-        # SUPPORT VECTOR CLASSIFIER
-        - svc:
-            static:
-                decision_function_shape: ovo
+                max_iter: 1000
             grid_search:
-                kernel: [linear, rbf]
-                C: [1, 150]
+                C: [0.1, 1, 10, 100]
+                penalty: [l2,  none]
+                solver: [newton-cg, lbfgs, sag, saga]
+                multi_class: [auto, multinomial, ovo, ovr]
+
+        # RIDGE CLASSIFIER
+        - sgd:
+            static:
+                epsilon: 0.18
+                penalty: l1
+                class_weight: balanced
+            grid_search:
+                eta0: [0.1, 0.5, 1]
+                learning_rate: [constant, optimal, invscaling, adaptive]
+
+        # COMPLEMENT NAIVE BAYES
+        - naivebays:
+            grid_search:
+                alpha: [0.5, 1]
+                norm: [True, False]

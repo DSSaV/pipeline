@@ -5,5 +5,5 @@ data: C://Users/35840/desktop/coding/python/pipeline/datasets/predicting.csv
 capital: 100
 
 # BUY/SELL SENSITIVITY
-buy: 0.4
-sell: 0.4
+buy: 0.6
+sell: 0.6
