@@ -1,10 +1,10 @@
 # DATASET TO USE
-data: C://Users/35840/desktop/coding/python/pipeline/datasets/training.csv
+data: C://Users/35840/desktop/coding/python/pipeline/datasets/predicting.csv
 
 # RAW DATA PROCESSING
 processing:
     resample: true
-    time: 4H
+    time: D
     aggregate: {
         Open: first,
         High: max,
@@ -103,20 +103,22 @@ classification_ensemble:
 
     # LABEL DECISION
     decision:
-        upper: 0.70
-        lower: 0.30
+        upper: 0.75
+        lower: 0.25
     models:
 
         # RANDOM FOREST
         - randforest:
+            static:
+                class_weight: balanced
+                verbose: 0
             grid_search:
                 n_estimators: [10, 50, 100, 300]
                 max_features: [log2, sqrt]
-                max_depth: [10, 100, None]
+                max_depth: [10, 100, none]
                 min_samples_split: [3, 10]
                 min_samples_leaf: [2, 4]
                 bootstrap: [True, False]
-                class_weight: [balanced]
 
         # LOGISTIC REGRESSION
         - logreg:
@@ -128,7 +130,7 @@ classification_ensemble:
                 C: [0.1, 1, 10, 100]
                 penalty: [l2,  none]
                 solver: [newton-cg, lbfgs, sag, saga]
-                multi_class: [auto, multinomial, ovo, ovr]
+                multi_class: [auto, multinomial, ovr]
 
         # RIDGE CLASSIFIER
         - sgd:
